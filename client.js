@@ -13,10 +13,9 @@ const readHeader = (buffer) => {
 
 const sendPacket = (socket, packet) => {
   const protoMessages = getProtoMessages();
-  console.log('protoMessages:', protoMessages);
   const Packet = protoMessages.common.Packet;
   if (!Packet) {
-    console.error('Packet is not defined');
+    console.error('Packet 메시지를 찾을 수 없습니다.');
     return;
   }
 
@@ -24,7 +23,7 @@ const sendPacket = (socket, packet) => {
 
   // 패킷 길이 정보를 포함한 버퍼 생성
   const packetLength = Buffer.alloc(TOTAL_LENGTH);
-  packetLength.writeUInt32BE(buffer.length + TOTAL_LENGTH + PACKET_TYPE_LENGTH, 0); // 패킷 길이에 타입 바이트 포함
+  packetLength.writeUInt32BE(buffer.length + PACKET_TYPE_LENGTH, 0); // 패킷 길이에 타입 바이트 포함
 
   // 패킷 타입 정보를 포함한 버퍼 생성
   const packetType = Buffer.alloc(PACKET_TYPE_LENGTH);
@@ -77,4 +76,10 @@ client.on('close', () => {
 
 client.on('error', (err) => {
   console.error('Client error:', err);
+});
+
+process.on('SIGINT', () => {
+  client.end('클라이언트가 종료됩니다.', () => {
+    process.exit(0);
+  });
 });

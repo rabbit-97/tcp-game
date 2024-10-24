@@ -1,6 +1,6 @@
 import { getProtoMessages } from '../../init/loadProtos.js';
 
-export const packetParser = (data) => {
+export const parsePacket = (data) => {
   const protoMessages = getProtoMessages();
 
   // 공통 패킷 구조를 디코딩
