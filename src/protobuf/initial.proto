@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package initial;
+
+message initialPacket {
+    string deviceID = 1;
+    
+}

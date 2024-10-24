@@ -32,10 +32,9 @@ export const onData = (socket) => async (data) => {
         case PACKET_TYPE.NORMAL:
           const { handlerId, sequence, payload, userId } = parsePacket(packet);
 
-          console.log('handlerId:', handlerId);
-          console.log('userId:', userId);
-          console.log('payload:', payload);
-          console.log('sequence:', sequence);
+          const handler = getHandlerById(handlerId);
+
+          await handler;
       }
     } else {
       // 아직 전체 패킷이 도착하지 않음

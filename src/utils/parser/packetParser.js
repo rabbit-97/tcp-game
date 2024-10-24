@@ -15,10 +15,22 @@ export const parsePacket = (data) => {
   const handlerId = packet.handlerId;
   const userId = packet.userId;
   const clientVersion = packet.clientVersion;
-  const payload = packet.payload;
   const sequence = packet.sequence;
 
   console.log('clientVersion:', clientVersion);
 
+  const protoTypeName = getProtoTypeNameHandlerId(handlerId);
+  if (!protoTypeName) {
+    console.error(`알 수 없는 핸들러 아이디 ID ${handlerId}`);
+  }
+
+  const [namespace, typeName] = protoTypeName.split('.');
+  const PayloadType = protoMessages[namespace][typeName];
+  let payload;
+  try {
+    payload = PayloadType.decode(packet.payload);
+  } catch (error) {
+    console.error(error);
+  }
   return { handlerId, userId, payload, sequence };
 };
