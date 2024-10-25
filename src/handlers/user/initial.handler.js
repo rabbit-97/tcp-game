@@ -1,12 +1,25 @@
 import { addUser } from '../../session/user.session.js';
+import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
+import { createResponse } from '../../utils/response/createResponse.js';
+import { handleError } from '../../utils/error/errorHandler.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
-  const { deviceId } = payload;
+  try {
+    const { deviceId } = payload;
 
-  addUser(socket, deviceId);
+    addUser(socket, deviceId);
 
-  // 뭔가 처리가 끝났을때 보내는 것
-  socket.write('');
+    const initialResponse = createResponse(
+      HANDLER_IDS.INITIAL,
+      RESPONSE_SUCCESS_CODE,
+      { userId: deviceId },
+      deviceId,
+    );
+
+    socket.write(initialResponse);
+  } catch (error) {
+    handleError(socket, error);
+  }
 };
 
 export default initialHandler;
