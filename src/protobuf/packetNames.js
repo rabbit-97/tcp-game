@@ -1,11 +1,9 @@
-import { initial } from 'lodash';
-
 export const packetNames = {
   common: {
     Packet: 'common.Packet',
   },
   initial: {
-    initialPacket: 'initial.Packet',
+    InitialPacket: 'initial.InitialPacket',
   },
   response: {
     Response: 'response.Response',

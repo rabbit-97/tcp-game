@@ -5,6 +5,7 @@ export const addUser = (socket, uuid) => {
   userSessions.push(user);
   return user;
 };
+
 export const removeUser = (socket) => {
   const index = userSessions.findIndex((user) => user.socket === socket);
   if (index !== -1) {
@@ -14,4 +15,12 @@ export const removeUser = (socket) => {
 
 export const getUserById = (id) => {
   return userSessions.find((user) => user.id === id);
+};
+
+export const getNextSequence = (id) => {
+  const user = getUserById(id);
+  if (user) {
+    return ++user.sequence;
+  }
+  return null;
 };

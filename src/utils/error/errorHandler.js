@@ -1,4 +1,4 @@
-export const handlerError = (socket, error) => {
+export const handleError = (socket, error) => {
   let responseCode;
   let message;
   console.log(error);
