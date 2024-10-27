@@ -1,4 +1,4 @@
-import { getGameSession } from '../../session/game.session.js';
+import { getAllGameSessions, getGameSession } from '../../session/game.session.js';
 import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
@@ -23,6 +23,8 @@ const joinGameHandler = ({ socket, userId, payload }) => {
     if (!existUser) {
       gameSession.addUser(user);
     }
+
+    console.log(getAllGameSessions());
 
     const joinGameResponse = createResponse(
       HANDLER_IDS.JOIN_GAME,

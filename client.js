@@ -87,7 +87,7 @@ client.on('data', (data) => {
 
   // 2. 패킷 타입 정보 수신 (1바이트)
   const packetType = data.readUInt8(4);
-  const packet = data.slice(totalHeaderLength, totalHeaderLength + length); // 패킷 데이터
+  const packet = data.slice(totalHeaderLength, length); // 패킷 데이터
 
   if (packetType === 1) {
     const protoMessages = getProtoMessages();

@@ -7,7 +7,7 @@ const PACKET_TYPE_LENGTH = 1; // 패킷타입을 나타내는 1바이트
 let userId;
 let sequence;
 const deviceId = 'xxxxx';
-let gameId = 'fe91e589-65bd-448f-9f2c-47e448080cb6';
+let gameId = '07d1f311-bb05-418c-94d5-1c697055ac6d';
 
 const createPacket = (handlerId, payload, clientVersion = '1.0.0', type, name) => {
   const protoMessages = getProtoMessages();
@@ -88,7 +88,7 @@ client.on('data', (data) => {
 
   // 2. 패킷 타입 정보 수신 (1바이트)
   const packetType = data.readUInt8(4);
-  const packet = data.slice(totalHeaderLength, totalHeaderLength + length); // 패킷 데이터
+  const packet = data.slice(totalHeaderLength, length); // 패킷 데이터
 
   if (packetType === 1) {
     const protoMessages = getProtoMessages();
@@ -114,10 +114,4 @@ client.on('close', () => {
 
 client.on('error', (err) => {
   console.error('Client error:', err);
-});
-
-process.on('SIGINT', () => {
-  client.end('클라이언트가 종료됩니다.', () => {
-    process.exit(0);
-  });
 });

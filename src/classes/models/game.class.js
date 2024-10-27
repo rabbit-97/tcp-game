@@ -1,14 +1,15 @@
-const MAX_PLAYERS = 4;
+const MAX_PLAYERS = 2;
 
 class Game {
   constructor(id) {
     this.id = id;
     this.users = [];
-    this.state = 'waiting';
+    this.state = 'waiting'; // 'waiting', 'inProgress'
   }
-  addUser() {
+
+  addUser(user) {
     if (this.users.length >= MAX_PLAYERS) {
-      throw new Error('Gmae session is full');
+      throw new Error('Game session is full');
     }
     this.users.push(user);
 

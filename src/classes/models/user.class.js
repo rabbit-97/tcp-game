@@ -7,12 +7,16 @@ class User {
     this.sequence = 0;
     this.lastUpdateTime = Date.now();
   }
+
   updatePosition(x, y) {
     this.x = x;
     this.y = y;
     this.lastUpdateTime = Date.now();
   }
-  getNextSequence;
+
+  getNextSequence() {
+    return ++this.sequence;
+  }
 }
 
 export default User;
