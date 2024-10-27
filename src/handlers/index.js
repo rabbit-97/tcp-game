@@ -23,6 +23,7 @@ const handlers = {
     handler: updateLocationHandler,
     protoType: 'game.LocationUpdatePayload',
   },
+  // 다른 핸들러들을 추가
 };
 
 export const getHandlerById = (handlerId) => {

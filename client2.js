@@ -6,7 +6,7 @@ const TOTAL_LENGTH = 4; // 전체 길이를 나타내는 4바이트
 const PACKET_TYPE_LENGTH = 1; // 패킷타입을 나타내는 1바이트
 
 let userId;
-let gameId = '02166cd4-d2a5-4a1b-b77f-1d51d0feefec';
+let gameId = 'd4368b52-b0bd-4042-8aca-d218020118f7';
 let sequence = 0;
 const deviceId = 'xxxxx';
 let x = 0.0;
@@ -77,7 +77,7 @@ const sendPong = (socket, timestamp) => {
 };
 
 const updateLocation = (socket) => {
-  x += 0.3;
+  x += 1;
   const packet = createPacket(6, { gameId, x, y }, '1.0.0', 'game', 'LocationUpdatePayload');
 
   sendPacket(socket, packet);
@@ -117,7 +117,7 @@ client.on('data', async (data) => {
   const totalHeaderLength = TOTAL_LENGTH + PACKET_TYPE_LENGTH;
   // 2. 패킷 타입 정보 수신 (1바이트)
   const packetType = data.readUInt8(4);
-  const packet = data.slice(totalHeaderLength, totalHeaderLength + length); // 패킷 데이터
+  const packet = data.slice(totalHeaderLength, length); // 패킷 데이터
   const protoMessages = getProtoMessages();
 
   if (packetType === 1) {
@@ -144,7 +144,7 @@ client.on('data', async (data) => {
         pingMessage.timestamp.unsigned,
       );
       // console.log('Received ping with timestamp:', timestampLong.toNumber());
-      await delay(1500);
+      await delay(1000);
       await sendPong(client, timestampLong.toNumber());
     } catch (pongError) {
       console.error('Ping 처리 중 오류 발생:', pongError);
@@ -162,7 +162,7 @@ client.on('data', async (data) => {
       // 위치 업데이트 패킷 전송
       setInterval(() => {
         updateLocation(client);
-      }, 1500);
+      }, 1000);
     } catch (error) {
       console.error(error);
     }
@@ -184,4 +184,10 @@ client.on('close', () => {
 
 client.on('error', (err) => {
   console.error('Client error:', err);
+});
+
+process.on('SIGINT', () => {
+  client.end('클라이언트가 종료됩니다.', () => {
+    process.exit(0);
+  });
 });

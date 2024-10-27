@@ -1,13 +1,20 @@
 import { getProtoMessages } from '../../init/loadProtos.js';
 import { PACKET_TYPE } from '../../constants/header.js';
+import { config } from '../../config/config.js';
 
 const makeNotification = (message, type) => {
-  const packetLength = Buffer.alloc(4);
-  packetLength.writeUInt32BE(message.length + 1, 0);
+  // 패킷 길이 정보를 포함한 버퍼 생성
+  const packetLength = Buffer.alloc(config.packet.totalLength);
+  packetLength.writeUInt32BE(
+    message.length + config.packet.totalLength + config.packet.typeLength,
+    0,
+  );
 
-  const packetType = Buffer.alloc(1);
+  // 패킷 타입 정보를 포함한 버퍼 생성
+  const packetType = Buffer.alloc(config.packet.typeLength);
   packetType.writeUInt8(type, 0);
 
+  // 길이 정보와 메시지를 함께 전송
   return Buffer.concat([packetLength, packetType, message]);
 };
 

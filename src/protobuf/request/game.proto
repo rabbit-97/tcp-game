@@ -13,6 +13,7 @@ message JoinGamePayload {
   int64 timestamp = 2;       // 게임 참가 시각
 }
 
+// 위치 정보 업데이트
 message LocationUpdatePayload {
   string gameId = 1;
   float x = 2;
